@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_comentarios">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/barra"
+            layout="@layout/barra_toolbar" />
+
+
+        <EditText
+           android:layout_margin="30dp"
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/barra"
+            android:hint="nombre"
+            android:inputType="text" />
+        <EditText
+            android:layout_margin="30dp"
+            android:id="@+id/txtcomentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtName"
+            android:hint="comentario"
+            android:inputType="text" />
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
