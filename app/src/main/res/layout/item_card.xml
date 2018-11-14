@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/aportada"
             android:scaleType="centerCrop"
-            android:layout_marginLeft=""/>
+            android:layout_marginLeft="2dp"/>
 
 
         <TextView

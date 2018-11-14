@@ -4,11 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.drios.proyectocabaa.modelo.DAO;
 import com.example.drios.proyectocabaa.modelo.cabana;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import cz.msebera.android.httpclient.Header;
 
 public class activity_comentarios extends AppCompatActivity {
 
@@ -40,21 +49,37 @@ public class activity_comentarios extends AppCompatActivity {
 
             case R.id.check:
                 String id = getIntent().getStringExtra("id");
-                cabana n = cabana.buscat(id);
+                DAO dao = new DAO(this);
+                cabana n = dao.find(id);
 
-                Toast.makeText(this,"comentado!" , Toast.LENGTH_SHORT).show();
-               Intent i = new Intent(this, activity_detalle.class);
-                i.putExtra("id", n.id);
-                startActivity(i);
+                EditText nombre = findViewById(R.id.txtName);
+                EditText cometario = findViewById(R.id.txtcomentario);
+                String Nombre = nombre.getText().toString();
+                String Comentario = cometario.getText().toString();
+
+
+                //validar campos
+                if (Nombre.isEmpty() || Comentario.isEmpty()){
+                    Toast.makeText(this, "campos vacios!", Toast.LENGTH_SHORT).show();
+                }else {
+                    //insertar en base de datos
+                    insertarComentario(Nombre, Comentario, id);
+                    Toast.makeText(this, "comentado!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(this, activity_detalle.class);
+                    i.putExtra("id", n.id);
+                    startActivity(i);
+                }
                 break;
-            case R.id.version:
 
+            case R.id.version:
                 Intent c = new Intent(this, Activity_info.class);
                 startActivity(c);
                 break;
+
             default:
                 String ID = getIntent().getStringExtra("id");
-                cabana x = cabana.buscat(ID);
+                DAO daoo = new DAO(this);
+                cabana x = daoo.find(ID);
                 Intent z = new Intent(this, activity_detalle.class);
                 z.putExtra("id", x.id);
                 startActivity(z);
@@ -63,5 +88,34 @@ public class activity_comentarios extends AppCompatActivity {
         }
         return true;
     }
+
+
+    public void insertarComentario(String nombre, String comentario, String id) {
+        String Url = "http://raspberry.todojava.net/index.php/insertarComentario";
+
+        RequestParams params = new RequestParams();
+
+        params.put("nombre", nombre);
+        params.put("comentario", comentario);
+        params.put("id", id);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(Url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode == 200) {
+                    String respuesta = new String(responseBody);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+
+            }
+        });
+
+    }//end funciotn
+
 
 }

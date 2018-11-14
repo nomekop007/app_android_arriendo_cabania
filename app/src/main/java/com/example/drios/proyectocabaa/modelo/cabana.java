@@ -18,6 +18,10 @@ public class cabana{
     public int precio;
     public List<comentario> lista;
 
+    public cabana(){
+
+    }
+
     public cabana(String id, String nombre, int fotoPortada, int foto2, int foto3, int foto4, int foto5, String descripcion, int precio, List<comentario> lista) {
         this.id = id;
         this.nombre = nombre;
@@ -30,7 +34,7 @@ public class cabana{
         this.precio = precio;
         this.lista = lista;
     }
-
+/*
     public static List<cabana> getDatos(){
         List<cabana> listCabana =  new ArrayList<>();
 
@@ -84,6 +88,6 @@ public class cabana{
 
         return null;
     }
-
+*/
 
 }

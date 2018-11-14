@@ -13,12 +13,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.drios.proyectocabaa.modelo.DAO;
 import com.example.drios.proyectocabaa.modelo.cabana;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private DAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         lm.setOrientation(LinearLayoutManager.VERTICAL);
 
         rc.setLayoutManager(lm);
-        adaptador adaptador = new adaptador(cabana.getDatos(), this, R.layout.item_card);
+
+        dao = new DAO(this);
+        adaptador adaptador = new adaptador(dao.cabanasList(), this, R.layout.item_card);
 
 
         //onClick
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 RecyclerView rc = findViewById(R.id.list_recycler);
                 //sacar id del objeto seleccionado
-               String id = cabana.getDatos().get(rc.getChildAdapterPosition(view)).id;
+                String id = dao.cabanasList().get(rc.getChildAdapterPosition(view)).id;
 
                 enviar(id);
             }
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void enviar(String id){
+    public void enviar(String id) {
         Intent i = new Intent(this, activity_detalle.class);
         i.putExtra("id", id);
         startActivity(i);
